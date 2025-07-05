@@ -1,5 +1,5 @@
 title = "HOME"
-baseURL = "https://gohugo-theme-ananke.pages.dev"
+baseURL = "https://yjloong.github.io/"
 languageCode = "zh"
 theme = 'ananke'
 resourceDir = "./resources"
@@ -13,7 +13,6 @@ enableRobotsTXT = true
 
 contentDir = "content"
 
-
 [pagination]
 pagerSize = 3
 
@@ -25,7 +24,7 @@ filename = "sitemap.xml"
 [params]
 text_color = ""
 author = ""
-favicon = ""
+favicon = "images/logo.png"
 site_logo = ""
 description = "能吃能睡"
 # choose a background color from any on this page: https://tachyons.io/docs/themes/skins/ and preface it with "bg-"
@@ -33,7 +32,6 @@ background_color_class = "bg-black"
 recent_posts_number = 3
 omit_header_text = true
 show_reading_time = true
-mainSections = ["tags", "post"]
 
 [[menu.main]]
 name = "Tags"
