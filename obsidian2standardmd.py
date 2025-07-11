@@ -161,6 +161,7 @@ def onefile(md_path: str, others: list, dryrun: bool = True):
         
         # 如果matter中没有时间，则以文件创建时间作为时间
         new_file_path = os.path.join(md_root, os.path.basename(md_path))
+        print(f"New file path: {new_file_path}")
         os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
         
         # 将published改为draft
@@ -174,18 +175,20 @@ def onefile(md_path: str, others: list, dryrun: bool = True):
 
         with open(new_file_path, 'w', encoding='utf-8') as newf:
             newf.write('---\n')
+            date_format = '%Y-%m-%dT%H:%M:%S%z'
             for k, v in matter.items():
                 newf.write(f'{k}: {v}\n')
             if 'date' not in matter:
                 # format of date: %Y-%m-%d
                 file_created_time = datetime.datetime.fromtimestamp(os.path.getctime(md_path))
-                newf.write(f'date: {file_modified_time.strftime("%Y-%m-%d")}\n')
+                newf.write(f'date: {file_created_time.strftime(date_format)}\n')
             if 'lastmod' not in matter:
                 file_modified_time = datetime.datetime.fromtimestamp(os.path.getmtime(md_path))
-                newf.write(f'lastmod: {file_modified_time.strftime("%Y-%m-%d")}\n')
+                newf.write(f'lastmod: {file_modified_time.strftime(date_format)}\n')
             
             if 'categories' not in matter:
-                newf.write('categories: ["nocategory"]\n')
+                #newf.write('categories: ["nocategory"]\n')
+                pass
             
             
 
@@ -223,6 +226,19 @@ def conv(obsidian_dir: str = '/mnt/c/Users/bajeer/Documents/obsidian/'):
     for md in mds:
         onefile(md, others, False)
 
+def gen_navigate_articles():
+    articles_path = os.path.join(md_root, '_index.md')
+    os.makedirs(os.path.dirname(articles_path), exist_ok=True)
+
+    with open(articles_path, 'w', encoding='utf-8') as f:
+        f.write("""---
+title: "aArticles"
+date: 2017-03-02T12:00:00-05:00
+---
+""")
+
+
+
 @cmdline
 def test_yaml():
     test_lines = [
@@ -232,4 +248,8 @@ def test_yaml():
         print(yaml.safe_load(line))
 
 if __name__ == '__main__':
+    # rm md_root
+    shutil.rmtree(md_root, ignore_errors=True)
+    gen_navigate_articles()
+
     cmdline_start(globals=globals(), has_abbrev=True)
